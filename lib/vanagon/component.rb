@@ -132,6 +132,8 @@ class Vanagon
     # unpack, patch, configure, build, and check steps.
     attr_accessor :install_only
 
+    attr_accessor :sbom_name
+
     # Loads a given component from the configdir
     #
     # @param name [String] the name of the component
@@ -190,6 +192,7 @@ class Vanagon
       @service = []
 
       @sbom = nil
+      @sbom_name = nil
     end
 
     # Adds the given file to the list of files and returns @files.
@@ -449,7 +452,7 @@ class Vanagon
       if @sbom.nil?
         @sbom = Sbom::Data::Package.new
 
-        @sbom.name              = name
+        @sbom.name              = @sbom_name || name
         @sbom.version           = version
         @sbom.download_location = url unless url.nil?
       end

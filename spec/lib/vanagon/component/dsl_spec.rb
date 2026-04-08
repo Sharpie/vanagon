@@ -878,6 +878,14 @@ end" }
     end
   end
 
+  describe '#sbom_name' do
+    it 'sets the sbom_name on the component' do
+      comp = Vanagon::Component::DSL.new('rubygem-rexml', {}, platform)
+      comp.sbom_name('rexml')
+      expect(comp._component.sbom_name).to eq('rexml')
+    end
+  end
+
   describe '#directory' do
     it 'adds a directory with the desired path to the directory collection for the component' do
       comp = Vanagon::Component::DSL.new('directory-test', {}, platform)

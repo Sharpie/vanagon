@@ -591,6 +591,13 @@ class Vanagon
       def homepage(homepage)
         @component.homepage = homepage
       end
+
+      # Override name used for software bill of materials
+      #
+      # @param name [String]
+      def sbom_name(name)
+        @component.sbom_name = name
+      end
     end
   end
 end

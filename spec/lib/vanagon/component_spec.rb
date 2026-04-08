@@ -308,6 +308,11 @@ describe "Vanagon::Component" do
       expect(subject.sbom.name).to eq('sbom-test')
     end
 
+    it 'uses sbom_name for the package name when set' do
+      subject.sbom_name = 'custom-name'
+      expect(subject.sbom.name).to eq('custom-name')
+    end
+
     it 'sets the package version from the component version' do
       subject.version = '1.2.3'
       expect(subject.sbom.version).to eq('1.2.3')
