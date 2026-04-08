@@ -297,6 +297,42 @@ describe "Vanagon::Component" do
     end
   end
 
+  describe '#sbom' do
+    subject { Vanagon::Component.new('sbom-test', {}, {}) }
+
+    it 'returns an Sbom::Data::Package' do
+      expect(subject.sbom).to be_a(Sbom::Data::Package)
+    end
+
+    it 'sets the package name from the component name' do
+      expect(subject.sbom.name).to eq('sbom-test')
+    end
+
+    it 'sets the package version from the component version' do
+      subject.version = '1.2.3'
+      expect(subject.sbom.version).to eq('1.2.3')
+    end
+
+    it 'returns nil version when component has no version' do
+      expect(subject.sbom.version).to be_nil
+    end
+
+    it 'sets download_location from the component url' do
+      subject.url = 'https://example.com/sbom-test-1.2.3.tar.gz'
+      expect(subject.sbom.download_location).to eq('https://example.com/sbom-test-1.2.3.tar.gz')
+    end
+
+    it 'does not set download_location when url is nil' do
+      expect(subject.sbom.download_location).to be_nil
+    end
+
+    it 'memoizes the result' do
+      first_call = subject.sbom
+      second_call = subject.sbom
+      expect(first_call).to equal(second_call)
+    end
+  end
+
   describe 'rpm ghost files' do
     let(:component) { Vanagon::Component.new('ghost-test', {}, {}) }
 

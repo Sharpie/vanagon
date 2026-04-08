@@ -8,6 +8,9 @@ require 'digest'
 require 'ostruct'
 require 'time'
 
+require 'sbom/data/document'
+require 'sbom/data/sbom'
+
 # Used to parse the vendor field into name and email
 VENDOR_REGEX = /^(.*) <(.*)>$/
 
@@ -174,6 +177,8 @@ class Vanagon
       @signing_commands = []
       @use_local_signing = false
       @source_date_epoch = (ENV['SOURCE_DATE_EPOCH'] || Time.now.utc).to_i
+
+      @sbom = nil
     end
 
     # Magic getter to retrieve settings in the project
@@ -899,6 +904,23 @@ class Vanagon
       else
         raise Vanagon::Error, "Metadata URI must be 'file://' or 'http://', don't know how to parse #{metadata_uri}"
       end
+    end
+
+    def sbom
+      if @sbom.nil?
+        @sbom = Sbom::Data::Sbom.new
+
+        doc = Sbom::Data::Document.new
+        doc.name             = name
+        doc.metadata_version = version
+
+        @sbom.add_document(doc)
+        components.each do |component|
+          @sbom.add_package(component.sbom) if component.sbom.version
+        end
+      end
+
+      @sbom
     end
   end
 end

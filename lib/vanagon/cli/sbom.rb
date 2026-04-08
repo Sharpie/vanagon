@@ -50,12 +50,9 @@ class Vanagon
         projects.each do |project|
           platforms.each do |platform|
             driver = Vanagon::Driver.new(platform, project, options)
-            packages = driver.project.components
-              .select { |comp| comp.version && !comp.version.empty? }
-              .map { |comp| { name: comp.name, version: comp.version } }
 
             generator = ::Sbom::Generator.new(sbom_type: sbom_type, format: sbom_format)
-            generator.generate(project, { packages: packages })
+            generator.generate(project, driver.project.sbom)
             puts generator.output
           rescue RuntimeError => e
             failures.push("#{project}, #{platform}: #{e}")

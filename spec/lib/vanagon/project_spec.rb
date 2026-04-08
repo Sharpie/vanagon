@@ -612,4 +612,60 @@ describe 'Vanagon::Project' do
       expect(proj.get_rpm_ghost_files).to eq(['ghost'])
     end
   end
+
+  describe '#sbom' do
+    let(:platform) { Vanagon::Platform.new('el-7-x86_64') }
+
+    it 'returns an Sbom::Data::Sbom' do
+      proj = Vanagon::Project.new('sbom-test', platform)
+      expect(proj.sbom).to be_a(Sbom::Data::Sbom)
+    end
+
+    it 'sets the document name from the project name' do
+      proj = Vanagon::Project.new('sbom-test', platform)
+      expect(proj.sbom.document[:name]).to eq('sbom-test')
+    end
+
+    it 'sets the document metadata_version from the project version' do
+      proj = Vanagon::Project.new('sbom-test', platform)
+      proj.version = '2.0.0'
+      expect(proj.sbom.document[:metadata_version]).to eq('2.0.0')
+    end
+
+    it 'includes components that have a version' do
+      proj = Vanagon::Project.new('sbom-test', platform)
+      comp = Vanagon::Component.new('openssl', {}, {})
+      comp.version = '3.0.8'
+      proj.components << comp
+
+      package_names = proj.sbom.packages.map { |p| p[:name] }
+      expect(package_names).to include('openssl')
+    end
+
+    it 'excludes components without a version' do
+      proj = Vanagon::Project.new('sbom-test', platform)
+      comp = Vanagon::Component.new('cleanup', {}, {})
+      proj.components << comp
+
+      package_names = proj.sbom.packages.map { |p| p[:name] }
+      expect(package_names).not_to include('cleanup')
+    end
+
+    it 'includes version information for component packages' do
+      proj = Vanagon::Project.new('sbom-test', platform)
+      comp = Vanagon::Component.new('curl', {}, {})
+      comp.version = '8.1.0'
+      proj.components << comp
+
+      pkg = proj.sbom.packages.find { |p| p[:name] == 'curl' }
+      expect(pkg[:version]).to eq('8.1.0')
+    end
+
+    it 'memoizes the result' do
+      proj = Vanagon::Project.new('sbom-test', platform)
+      first_call = proj.sbom
+      second_call = proj.sbom
+      expect(first_call).to equal(second_call)
+    end
+  end
 end

@@ -5,6 +5,8 @@ require 'vanagon/component/source/rewrite'
 
 require 'vanagon/logger'
 
+require 'sbom/data/package'
+
 class Vanagon
   class Component
     include Vanagon::Utilities
@@ -186,6 +188,8 @@ class Vanagon
       @postremove_actions = []
       @install_only = false
       @service = []
+
+      @sbom = nil
     end
 
     # Adds the given file to the list of files and returns @files.
@@ -439,6 +443,18 @@ class Vanagon
 
     def rules(project, platform)
       Vanagon::Component::Rules.new(self, project, platform)
+    end
+
+    def sbom
+      if @sbom.nil?
+        @sbom = Sbom::Data::Package.new
+
+        @sbom.name              = name
+        @sbom.version           = version
+        @sbom.download_location = url unless url.nil?
+      end
+
+      @sbom
     end
   end
 end

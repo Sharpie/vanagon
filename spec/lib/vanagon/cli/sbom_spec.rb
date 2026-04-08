@@ -92,29 +92,10 @@ describe Vanagon::CLI::Sbom do
   end
 
   describe '#run' do
-    let(:component_with_version) do
-      double('component', name: 'openssl', version: '3.0.8')
-    end
-
-    let(:component_with_version2) do
-      double('component', name: 'curl', version: '8.1.0')
-    end
-
-    let(:component_without_version) do
-      double('component', name: 'cleanup', version: nil)
-    end
-
-    let(:component_with_empty_version) do
-      double('component', name: 'init-scripts', version: '')
-    end
+    let(:sbom_data) { double('sbom') }
 
     let(:project) do
-      double('project', components: [
-        component_with_version,
-        component_with_version2,
-        component_without_version,
-        component_with_empty_version
-      ])
+      double('project', sbom: sbom_data)
     end
 
     let(:driver) { double('driver', project: project) }
@@ -166,27 +147,9 @@ describe Vanagon::CLI::Sbom do
       cli.run(base_options.merge(format: 'yaml'))
     end
 
-    it 'filters out components without a version' do
-      expected_packages = [
-        { name: 'openssl', version: '3.0.8' },
-        { name: 'curl', version: '8.1.0' }
-      ]
+    it 'passes the project sbom data to the generator' do
       expect(generator).to receive(:generate)
-        .with('test-project', { packages: expected_packages })
-      cli.run(base_options)
-    end
-
-    it 'filters out components with an empty version string' do
-      project_with_empty = double('project', components: [
-        component_with_version,
-        component_with_empty_version
-      ])
-      driver_with_empty = double('driver', project: project_with_empty)
-      allow(Vanagon::Driver).to receive(:new).and_return(driver_with_empty)
-
-      expected_packages = [{ name: 'openssl', version: '3.0.8' }]
-      expect(generator).to receive(:generate)
-        .with('test-project', { packages: expected_packages })
+        .with('test-project', sbom_data)
       cli.run(base_options)
     end
 
