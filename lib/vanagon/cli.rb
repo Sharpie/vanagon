@@ -15,6 +15,7 @@ require 'vanagon/cli/render'
 require 'vanagon/cli/ship'
 require 'vanagon/cli/sign'
 require 'vanagon/cli/dependencies'
+require 'vanagon/cli/sbom'
 
 require 'vanagon/logger'
 
@@ -39,6 +40,7 @@ class Vanagon
           sign                sign a package
           ship                upload a package to a distribution server
           dependencies        write json file to STDOUT that shows all required gems for a given project and platform
+          sbom                generate a bill of materials for a given project and platform
           help                print this help
     DOCOPT
 
@@ -68,6 +70,8 @@ class Vanagon
         @sub_parser = Vanagon::CLI::Ship.new
       when 'dependencies'
         @sub_parser = Vanagon::CLI::Dependencies.new
+      when 'sbom'
+        @sub_parser = Vanagon::CLI::Sbom.new
       when 'help'
         puts DOCUMENTATION
         exit 0

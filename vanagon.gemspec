@@ -31,6 +31,9 @@ Gem::Specification.new do |gem|
   gem.add_dependency('packaging', '~> 0.122.3')
 
   gem.add_dependency('ostruct', '< 0.7')
+  # Generate Software Bill of Materials in SPDX and CycloneDX formats
+  # - MIT licensed: https://rubygems.org/gems/sbom
+  gem.add_dependency('sbom', '~> 0.4')
 
   gem.require_path = 'lib'
   gem.bindir       = 'bin'
