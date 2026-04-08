@@ -326,6 +326,11 @@ describe "Vanagon::Component" do
       expect(subject.sbom.purl).to eq('pkg:generic/sbom-test@1.2.3?download_url=https://example.com/sbom-test-1.2.3.tar.gz')
     end
 
+    it 'sets a CPE when sbom_cpe is set' do
+      subject.sbom_cpe = 'cpe:2.3:a:vendor:sbom-test:1.0:*:*:*:*:*:*:*'
+      expect(subject.sbom.cpe).to eq('cpe:2.3:a:vendor:sbom-test:1.0:*:*:*:*:*:*:*')
+    end
+
     it 'sets the package version from the component version' do
       subject.version = '1.2.3'
       expect(subject.sbom.version).to eq('1.2.3')

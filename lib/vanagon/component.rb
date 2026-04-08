@@ -134,6 +134,7 @@ class Vanagon
 
     attr_accessor :sbom_name
     attr_accessor :sbom_purl
+    attr_accessor :sbom_cpe
 
     # Loads a given component from the configdir
     #
@@ -195,6 +196,7 @@ class Vanagon
       @sbom = nil
       @sbom_name = nil
       @sbom_purl = {}
+      @sbom_cpe = nil
     end
 
     # Adds the given file to the list of files and returns @files.
@@ -461,6 +463,10 @@ class Vanagon
         unless @sbom_purl.empty?
           require 'purl'
           @sbom.generate_purl(**@sbom_purl)
+        end
+
+        unless @sbom_cpe.nil?
+          @sbom.set_cpe(@sbom_cpe)
         end
       end
 

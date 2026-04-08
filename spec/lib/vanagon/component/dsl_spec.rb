@@ -900,6 +900,14 @@ end" }
     end
   end
 
+  describe '#sbom_cpe' do
+    it 'sets the sbom_cpe on the component' do
+      comp = Vanagon::Component::DSL.new('rexml', {}, platform)
+      comp.sbom_cpe('cpe:2.3:a:ruby-lang:rexml:3.2.5:*:*:*:*:*:*:*')
+      expect(comp._component.sbom_cpe).to eq('cpe:2.3:a:ruby-lang:rexml:3.2.5:*:*:*:*:*:*:*')
+    end
+  end
+
   describe '#directory' do
     it 'adds a directory with the desired path to the directory collection for the component' do
       comp = Vanagon::Component::DSL.new('directory-test', {}, platform)

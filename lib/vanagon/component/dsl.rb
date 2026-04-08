@@ -608,6 +608,15 @@ class Vanagon
       def sbom_purl(type:, qualifiers: nil)
         @component.sbom_purl = { type: type, qualifiers: qualifiers }
       end
+
+      # Set CPE (Common Platform Enumeration) for the component's SBOM entry.
+      # The CPE is set via {Sbom::Data::Package#set_cpe}
+      # when the SBOM data is assembled.
+      #
+      # @param vector [String] the CPE vector string
+      def sbom_cpe(vector)
+        @component.sbom_cpe = vector
+      end
     end
   end
 end
