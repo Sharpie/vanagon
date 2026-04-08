@@ -133,6 +133,7 @@ class Vanagon
     attr_accessor :install_only
 
     attr_accessor :sbom_name
+    attr_accessor :sbom_purl
 
     # Loads a given component from the configdir
     #
@@ -193,6 +194,7 @@ class Vanagon
 
       @sbom = nil
       @sbom_name = nil
+      @sbom_purl = {}
     end
 
     # Adds the given file to the list of files and returns @files.
@@ -455,6 +457,11 @@ class Vanagon
         @sbom.name              = @sbom_name || name
         @sbom.version           = version
         @sbom.download_location = url unless url.nil?
+
+        unless @sbom_purl.empty?
+          require 'purl'
+          @sbom.generate_purl(**@sbom_purl)
+        end
       end
 
       @sbom

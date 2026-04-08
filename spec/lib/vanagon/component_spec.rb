@@ -313,6 +313,19 @@ describe "Vanagon::Component" do
       expect(subject.sbom.name).to eq('custom-name')
     end
 
+    it 'generates a purl when sbom_purl is set' do
+      subject.version = '1.2.3'
+      subject.sbom_purl = { type: 'gem', qualifiers: nil }
+      expect(subject.sbom.purl).to eq('pkg:gem/sbom-test@1.2.3')
+    end
+
+    it 'generates a purl with qualifiers when provided' do
+      subject.version = '1.2.3'
+      subject.url = 'https://example.com/sbom-test-1.2.3.tar.gz'
+      subject.sbom_purl = { type: 'generic', qualifiers: { 'download_url' => subject.url } }
+      expect(subject.sbom.purl).to eq('pkg:generic/sbom-test@1.2.3?download_url=https://example.com/sbom-test-1.2.3.tar.gz')
+    end
+
     it 'sets the package version from the component version' do
       subject.version = '1.2.3'
       expect(subject.sbom.version).to eq('1.2.3')

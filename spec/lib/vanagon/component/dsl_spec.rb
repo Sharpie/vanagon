@@ -886,6 +886,20 @@ end" }
     end
   end
 
+  describe '#sbom_purl' do
+    it 'sets the sbom_purl on the component' do
+      comp = Vanagon::Component::DSL.new('rexml', {}, platform)
+      comp.sbom_purl(type: 'gem')
+      expect(comp._component.sbom_purl).to eq({ type: 'gem', qualifiers: nil })
+    end
+
+    it 'includes qualifiers when provided' do
+      comp = Vanagon::Component::DSL.new('rexml', {}, platform)
+      comp.sbom_purl(type: 'gem', qualifiers: { 'platform' => 'ruby' })
+      expect(comp._component.sbom_purl).to eq({ type: 'gem', qualifiers: { 'platform' => 'ruby' } })
+    end
+  end
+
   describe '#directory' do
     it 'adds a directory with the desired path to the directory collection for the component' do
       comp = Vanagon::Component::DSL.new('directory-test', {}, platform)

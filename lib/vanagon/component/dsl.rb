@@ -598,6 +598,16 @@ class Vanagon
       def sbom_name(name)
         @component.sbom_name = name
       end
+
+      # Set Package URL parameters for the component's SBOM entry.
+      # The purl is generated via {Sbom::Data::Package#generate_purl}
+      # when the SBOM data is assembled.
+      #
+      # @param type [String] the package type (e.g. "gem", "github", "generic")
+      # @param qualifiers [Hash] optional qualifiers for the purl
+      def sbom_purl(type:, qualifiers: nil)
+        @component.sbom_purl = { type: type, qualifiers: qualifiers }
+      end
     end
   end
 end
