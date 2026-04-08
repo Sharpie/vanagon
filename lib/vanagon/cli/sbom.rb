@@ -1,11 +1,13 @@
 require 'docopt'
 require 'json'
 require 'sbom'
+require 'vanagon/extensions/sbom/cyclonedx_generator'
 require 'vanagon/logger'
 
 class Vanagon
   class CLI
     class Sbom < Vanagon::CLI
+      using Vanagon::Extensions::CyclonedxCpe
       DOCUMENTATION = <<~DOCOPT.freeze
         Usage:
         sbom [options] <project-name> <platforms>
