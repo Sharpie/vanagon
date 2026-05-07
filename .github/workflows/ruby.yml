@@ -22,6 +22,8 @@ jobs:
       with:
         ruby-version: '3.4'
         bundler-cache: true
+    - name: Run Rubocop
+      run: bundle exec rake rubocop
     - id: ruby
       uses: voxpupuli/ruby-version@v2
 
@@ -41,7 +43,7 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
       - name: Run tests
-        run: bundle exec rake
+        run: bundle exec rake check
       - name: Build gem
         run: gem build --strict --verbose *.gemspec
 
