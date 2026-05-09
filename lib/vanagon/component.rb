@@ -360,12 +360,14 @@ class Vanagon
     # @param workdir [String] working directory to put the source into
     def get_sources(workdir) # rubocop:disable Metrics/AbcSize
       sources.each do |source|
-        src = Vanagon::Component::Source.source(
-          source.url, workdir: workdir, ref: source.ref, sum: source.sum
-        )
+        options = source.to_h # Copy OpenStruct to Hash.
+        url     = options.delete(:url)
+        erb     = options.delete(:erb)
+        options[:workdir] = workdir
+        src = Vanagon::Component::Source.source(url, **options)
         src.fetch
         src.verify
-        if source.erb
+        if erb
           erb_file(src.file, File.join(File.dirname(src.file), File.basename(src.file, ".erb")), true)
         end
         # set src.file to only be populated with the basename instead of entire file path
