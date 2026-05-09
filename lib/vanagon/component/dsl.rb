@@ -406,9 +406,9 @@ class Vanagon
       # This will add a source to the project and put it in the workdir alongside the other sources
       #
       # @param uri [String] uri of the source
-      # @param [Hash] options optional keyword arguments used to instatiate a new source
-      #   @option opts [String] :sum
-      #   @option opts [String] :ref
+      # @param [Hash] options optional keyword arguments used to instatiate a new source.
+      #               See {Vanagon::Component::Source::Local}, {Vanagon::Component::Source::Git},
+      #               and {Vanagon::Component::Source::Http} for details.
       #   @option opts [Bool] :erb set to 'true' to specify that the source file should be
       #     translated by erb
       def add_source(uri, options = {})

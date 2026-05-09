@@ -217,6 +217,28 @@ describe "Vanagon::Component" do
       expect(subject).to_not receive(:erb_file)
       subject.get_sources(@workdir)
     end
+
+    it "Allows checksum types to be specified" do
+      plat = Vanagon::Platform::DSL.new('el-10-x86_64')
+      plat.instance_eval("platform 'el-10-x86_64' do |plat| end")
+      @platform = plat._platform
+
+      comp = Vanagon::Component::DSL.new('build-dir-test', {}, @platform)
+      comp.add_source  @fake_file,
+                       # Checksum of spec/fixtures/files/fake_file.txt
+                       sum: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+                       sum_type: 'sha256'
+      subject = comp._component
+
+      # Not the best test as local files don't execute verification logic.
+      # However, properly mocking the download logic of a HTTP source would
+      # require a re-write of the class.
+      expect(Vanagon::Component::Source).to receive(:source)
+        .with(anything, hash_including(sum_type: 'sha256'))
+        .and_call_original
+
+      subject.get_sources(@workdir)
+    end
   end
 
   describe "#get_patches" do
