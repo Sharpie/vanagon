@@ -30,7 +30,6 @@ platform 'el-8-ppc64le' do |plat|
 
   plat.provision_with("dnf install -y --allowerasing  #{packages.join(' ')}")
   plat.install_build_dependencies_with 'dnf install -y --allowerasing'
-  plat.vmpooler_template 'redhat-8-power8'
   plat.docker_image "almalinux:8"
   plat.docker_arch "linux/ppc64le"
 end

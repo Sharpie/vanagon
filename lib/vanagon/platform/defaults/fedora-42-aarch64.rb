@@ -33,7 +33,6 @@ platform 'fedora-42-aarch64' do |plat|
     plat.provision_with("/usr/bin/dnf install -y --best --allowerasing #{packages.join(' ')}")
   
     plat.install_build_dependencies_with '/usr/bin/dnf install -y --best --allowerasing'
-    plat.vmpooler_template 'fedora-42-aarch64'
     plat.docker_image "fedora:42"
     plat.docker_arch 'linux/arm64'
   end

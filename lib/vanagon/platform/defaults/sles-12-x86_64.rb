@@ -8,7 +8,6 @@ platform "sles-12-x86_64" do |plat|
   packages = %w(aaa_base autoconf automake rsync gcc make rpm-build)
   plat.provision_with "zypper -n --no-gpg-checks install -y #{packages.join(' ')}"
   plat.install_build_dependencies_with "zypper -n --no-gpg-checks install -y"
-  plat.vmpooler_template "sles-12-x86_64"
   plat.docker_registry "registry.suse.com/suse"
   plat.docker_image "sles12sp5:latest"
   plat.docker_arch "linux/amd64"

@@ -31,7 +31,6 @@ platform 'el-9-ppc64le' do |plat|
 
   plat.provision_with("dnf install -y --allowerasing  #{packages.join(' ')} && dnf config-manager --set-enabled crb")
   plat.install_build_dependencies_with 'dnf install -y --allowerasing'
-  plat.vmpooler_template 'redhat-9-power9'
   plat.docker_image "almalinux:9"
   plat.docker_arch "linux/ppc64le"
 end

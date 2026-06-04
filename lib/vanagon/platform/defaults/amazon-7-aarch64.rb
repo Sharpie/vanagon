@@ -22,7 +22,6 @@ platform "amazon-7-aarch64" do |plat|
   )
   plat.provision_with("yum install -y --nogpgcheck  #{packages.join(' ')}")
   plat.install_build_dependencies_with "yum install --assumeyes"
-  plat.vmpooler_template "amazon-7-arm64"
   plat.docker_image "amazonlinux:2"
   plat.docker_arch "linux/arm64"
 end
