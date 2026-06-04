@@ -26,7 +26,6 @@ platform "ubuntu-18.04-amd64" do |plat|
   )
   plat.provision_with "export DEBIAN_FRONTEND=noninteractive; apt-get update -qq; apt-get install -qy --no-install-recommends #{packages.join(' ')}"
   plat.install_build_dependencies_with "export DEBIAN_FRONTEND=noninteractive; apt-get install -qy --no-install-recommends "
-  plat.vmpooler_template "ubuntu-1804-x86_64"
   plat.docker_image "ubuntu:18.04"
   plat.docker_arch "linux/amd64"
 end

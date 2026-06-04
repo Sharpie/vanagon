@@ -8,5 +8,4 @@ platform "macos-all-x86_64" do |plat|
   plat.provision_with "export HOMEBREW_VERBOSE=true"
   plat.provision_with "export HOMEBREW_NO_ANALYTICS=1"
   
-  plat.vmpooler_template "macos-15-x86_64"
 end

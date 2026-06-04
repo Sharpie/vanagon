@@ -27,7 +27,6 @@ platform "el-7-x86_64" do |plat|
   plat.provision_with "yum install --assumeyes devtoolset-7-gcc devtoolset-7-gcc-c++"
   plat.provision_with "scl enable devtoolset-7 bash"
   plat.install_build_dependencies_with "yum install --assumeyes"
-  plat.vmpooler_template "redhat-7-x86_64"
   plat.docker_image "oraclelinux:7"
   plat.docker_arch "linux/amd64"
 end

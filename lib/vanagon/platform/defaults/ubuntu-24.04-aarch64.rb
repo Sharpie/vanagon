@@ -26,7 +26,6 @@ platform "ubuntu-24.04-aarch64" do |plat|
   )
   plat.provision_with "export DEBIAN_FRONTEND=noninteractive; apt-get update -qq; apt-get install -qy --no-install-recommends #{packages.join(' ')}"
   plat.install_build_dependencies_with "DEBIAN_FRONTEND=noninteractive; apt-get install -qy --no-install-recommends "
-  plat.vmpooler_template "ubuntu-2404-arm64"
   plat.docker_image "ubuntu:24.04"
   plat.docker_arch 'linux/arm64'
 end
