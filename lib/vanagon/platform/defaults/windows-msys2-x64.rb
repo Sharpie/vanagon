@@ -1,6 +1,4 @@
 platform 'windows-msys2-x64' do |plat|
-  plat.vmpooler_template 'win-2022-x86_64'
-
   plat.servicetype 'windows'
 
   # MSYS2 must be pre-installed at C:/msys64 on the build image.
