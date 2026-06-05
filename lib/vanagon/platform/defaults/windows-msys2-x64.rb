@@ -31,11 +31,10 @@ platform 'windows-msys2-x64' do |plat|
 
   plat.platform_triple 'x86_64-w64-mingw32'
 
-  # In the MSYS2 UCRT64 environment, gcc is the native UCRT64 compiler.
-  # Do not use the full x86_64-w64-mingw32- prefix here; that is only needed
-  # when cross-compiling from a Cygwin host.
-  plat.environment 'CC', 'gcc'
-  plat.environment 'CXX', 'g++'
+  # Putting these here as a reminder where we use them elsewhere. DO NOT
+  # use the full path, just the name of the executable without the extension.
+  # Otherwise, autoconf gets confused.
+  plat.environment 'CC', 'x86_64-w64-mingw32-gcc'
 
   plat.package_type 'archive'
   plat.output_dir 'windows'
