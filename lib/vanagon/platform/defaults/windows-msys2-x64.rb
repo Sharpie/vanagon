@@ -12,8 +12,19 @@ platform 'windows-msys2-x64' do |plat|
     mingw-w64-ucrt-x86_64-gcc-libs
   ]
 
-  plat.provision_with("C:/msys64/usr/bin/pacman.exe -S --noconfirm --needed #{packages.join(' ')}")
-  plat.install_build_dependencies_with 'C:/msys64/usr/bin/pacman.exe -S --noconfirm --needed'
+  # Story time:
+  #
+  # Windows can end up with multiple MSYS2 installations. This is common
+  # on GitHub actions where the runner image comes with `C:/msys64/`
+  # pre-installed, but inactive, and the `msys/setup-msys2` creates a new
+  # installation under `D:/a/_temp/msys64/`.
+  #
+  # Thus: assume Vanagon is running in a MSYS2 shell which mounts the chosen
+  # MSYS2 installation and sets PATH appropriately. "UNIX" paths in this shell,
+  # like `/usr/bin/` should work fine, but fully-qualified Windows paths like
+  # `C:/msys64/usr/bin/` might point to the "wrong" MSYS2 installation.
+  plat.provision_with("/usr/bin/pacman -S --noconfirm --needed #{packages.join(' ')}")
+  plat.install_build_dependencies_with '/usr/bin/pacman -S --noconfirm --needed'
 
   plat.make '/usr/bin/make'
   plat.patch 'TMP=/var/tmp /usr/bin/patch.exe --binary'
