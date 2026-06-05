@@ -1,21 +1,15 @@
 platform 'windows-msys2-x64' do |plat|
   plat.servicetype 'windows'
 
-  # MSYS2 must be pre-installed at C:/msys64 on the build image.
-  # Install required UCRT64 toolchain and library packages via pacman.
-  packages = [
-    'autoconf',
-    'git',
-    'make',
-    'mingw-w64-ucrt-x86_64-gcc',
-    'mingw-w64-ucrt-x86_64-gdbm',
-    'mingw-w64-ucrt-x86_64-libffi',
-    'mingw-w64-ucrt-x86_64-libyaml',
-    'mingw-w64-ucrt-x86_64-readline',
-    'mingw-w64-ucrt-x86_64-ruby',
-    'mingw-w64-ucrt-x86_64-zlib',
-    'mingw-w64-ucrt-x86_64-gcc-libs',
-    'patch',
+  packages = %w[
+    autoconf
+    git
+    make
+    patch
+    mingw-w64-ucrt-x86_64-gcc
+    mingw-w64-ucrt-x86_64-gdbm
+    mingw-w64-ucrt-x86_64-zlib
+    mingw-w64-ucrt-x86_64-gcc-libs
   ]
 
   plat.provision_with("C:/msys64/usr/bin/pacman.exe -S --noconfirm --needed #{packages.join(' ')}")
