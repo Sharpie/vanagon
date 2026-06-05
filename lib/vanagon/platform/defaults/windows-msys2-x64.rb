@@ -36,6 +36,6 @@ platform 'windows-msys2-x64' do |plat|
   # Otherwise, autoconf gets confused.
   plat.environment 'CC', 'x86_64-w64-mingw32-gcc'
 
-  plat.package_type 'archive'
+  plat.package_type 'msi'
   plat.output_dir 'windows'
 end
